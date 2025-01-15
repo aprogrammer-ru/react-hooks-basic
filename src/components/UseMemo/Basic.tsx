@@ -1,42 +1,62 @@
-import { useState, useMemo, memo } from "react"
+import React, { useState, useMemo } from "react";
 
-const UseMemoBasic = () => {
-    const [age, setAge] = useState(19)
-  
-    const handleClick = () => { setAge(age < 100 ? age + 1 : age) }
-  
-    const getRandomColor = () => `#${((Math.random() * 0xfff) << 0).toString(16)}`
-  
-    const memoizedGetRandomColor = useMemo(() => getRandomColor, [])
-  
-    return (
-      <>
-        <Age age={age} handleClick={handleClick} />
-        <Guide getRandomColor={memoizedGetRandomColor} />
-      </>
-    )
-  }
-  
-  const Age = ({ age, handleClick }) => {
-    return (
-      <div>
-        <p>Мне {age} лет.</p>
-        <p>Нажми на кнопку 👇</p>
-        <button onClick={handleClick}>Стать старше!</button>
-      </div>
-    )
-  }
-  
-  const Guide = memo(({ getRandomColor }) => {
-    const color = getRandomColor()
-  
-    return (
-      <div style={{ background: color, padding: '.4rem' }}>
-        <p style={{ color: color, filter: 'invert()' }}>
-          Следуй инструкциям максимально точно.
-        </p>
-      </div>
-    )
-  })
+// Тип для пользователя
+type User = {
+  id: number;
+  name: string;
+  age: number;
+};
 
-  export default UseMemoBasic;
+// Начальные данные пользователей
+const initialUsers: User[] = [
+  { id: 1, name: "Alice", age: 25 },
+  { id: 2, name: "Bob", age: 30 },
+  { id: 3, name: "Charlie", age: 35 },
+  { id: 4, name: "David", age: 40 },
+];
+
+function UserList() {
+  const [users, setUsers] = useState<User[]>(initialUsers);
+  const [filter, setFilter] = useState("");
+  const [renderCount, setRenderCount] = useState(0); // Счётчик рендеров
+
+  // Фильтрация пользователей с использованием useMemo
+  const filteredUsers = useMemo(() => {
+    console.log("Вычисление отфильтрованного списка..."); // Логируем вычисления
+    return users.filter((user) =>
+      user.name.toLowerCase().includes(filter.toLowerCase())
+    );
+  }, [users, filter]); // Зависимости: users и filter
+
+
+  //Фильтрация без useMemo будет выполняться при каждом рендере
+  /* const filteredUsers = users.filter((user) => {
+    console.log("Вычисление отфильтрованного списка..."); // Логируем вычисления
+    return user.name.toLowerCase().includes(filter.toLowerCase())
+  }
+  ); */
+
+
+  return (
+    <div>
+      <h1>Список пользователей</h1>
+      <input
+        type="text"
+        value={filter}
+        onChange={(e) => setFilter(e.target.value)}
+        placeholder="Поиск по имени"
+      />
+      <ul>
+        {filteredUsers.map((user) => (
+          <li key={user.id}>
+            {user.name} (Возраст: {user.age})
+          </li>
+        ))}
+      </ul>
+      {/* Кнопка для принудительного ререндера */}
+      <button onClick={() => setRenderCount(renderCount + 1)}>Вызов рендера: {renderCount}</button>
+    </div>
+  );
+}
+
+export default UserList;

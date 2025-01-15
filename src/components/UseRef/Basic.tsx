@@ -1,22 +1,30 @@
-import { useRef } from "react"
+import { useRef } from "react";
 
-const UseRefBasic = () => {
-    const textareaEl = useRef<HTMLTextAreaElement>(null)
-  
-    const handleClick = () => {
-      textareaEl.current!.innerText = 'Изучай хуки внимательно! Они не так просты, как кажется'
-      textareaEl.current!.focus()
+function UseRefInputApp() {
+  // Создаем ref для input
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleFocusAndColor = () => {
+    // Проверяем, что inputRef.current существует
+    if (inputRef.current) {
+      // Фокусируемся на input
+      inputRef.current.focus();
+      // Меняем цвет текста в input
+      inputRef.current.style.color = "red"; // Можно использовать любой цвет
     }
-  
-    return (
-      <>
-        <button onClick={handleClick}>Получить сообщение.</button>
-        <label htmlFor='message'>
-          После нажатия кнопки в поле для ввода текста появится сообщение.
-        </label>
-        <textarea ref={textareaEl} id='message' />
-      </>
-    )
-  }
+  };
 
-  export default UseRefBasic;
+  return (
+    <div>
+      <input
+        ref={inputRef}
+        type="text"
+        placeholder="Введите текст"
+        style={{ color: "black" }} // Начальный цвет текста
+      />
+      <button onClick={handleFocusAndColor}>Фокус и цвет</button>
+    </div>
+  );
+}
+
+export default UseRefInputApp;

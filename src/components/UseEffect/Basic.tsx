@@ -2,39 +2,22 @@ import { useEffect, useState } from "react"
 
 //Базовый пример
 const UseEffectBasic = () => {
-    const [age, setAge] = useState(19)
   
-    const handleClick = () => setAge(age + 1)
-  
+    const [seconds, setSeconds] = useState(0);
+ 
     useEffect(() => {
-      document.title = `Тебе ${age} лет!`
-    })
+      // Устанавливаем интервал для обновления состояния каждую секунду (аналог componentDidMount)
+      const interval = setInterval(() => {
+        setSeconds(seconds => seconds + 1);
+      }, 1000);
   
-    return (
-      <>
-        <p>Обратите внимание на заголовок текущей вкладки браузера.</p>
-        <button onClick={handleClick}>Обновить заголовок!</button>
-      </>
-    )
+      // Очищаем интервал при размонтировании компонента (аналог  componentWillUnmount)
+      return () => clearInterval(interval);
+    }, []); // Пустой массив зависимостей означает, что эффект выполнится только один раз
+  
+    return <p>Прошло секунд: {seconds}</p>;
+  
   }
 
-//Очистка эффекта (после размонтирования)
-  const CleanupEffect = () => {
-    useEffect(() => {
-      const clicked = () => console.log('Клик!')
-  
-      window.addEventListener('click', clicked)
-  
-      return () => {
-        window.removeEventListener('click', clicked)
-      }
-    }, [])
-  
-    return (
-      <>
-        <p>После клика по области просмотра в консоли появится сообщение.</p>
-      </>
-    )
-  }
 
-  export default CleanupEffect;
+  export default UseEffectBasic
