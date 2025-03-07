@@ -4,17 +4,18 @@ function UserProfileApp() {
   const [user, setUser] = useState({ name: "Andrei", age: 32 });
   const [message, setMessage] = useState("");
 
-  // Эффект, который срабатывает при изменении объекта user
+  // Эффект, который срабатывает при изменении ссылки на объект user
   useEffect(() => {
     setMessage(`User data updated: ${user.name}, ${user.age} years old`);
     console.log("User data changed:", user);
   }, [user]); // Зависимость от объекта user
 
-// Альтернативный эффект, который срабатывает при изменении полей name или age у user
+// Альтернативный эффект, который срабатывает при изменении ЗНАЧЕНИЙ полей name или age у user, не зависимо от ссылки на объект user
   useEffect(() => {
    setMessage(`User data updated 2: ${user.name}, ${user.age} years old`);
    console.log("User data changed 2:", user);
- }, [user.name, user.age]); // Зависимость от полей name и age
+ }, [user.name]); // Зависимость от полей name и age
+  
 
   const updateUser = () => {
     // Изменяем объект user (создаем новый объект, чтобы изменить ссылку)

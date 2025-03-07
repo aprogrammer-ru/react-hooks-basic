@@ -14,6 +14,7 @@ const ThemeContext = createContext<{
 
 // Компонент Header
 function Header() {
+  // Используем контекст для получения текущей темы
   const { theme } = useContext(ThemeContext);
 
   return (
@@ -32,6 +33,7 @@ function Header() {
 
 // Компонент Content
 function Content() {
+  // Используем контекст для получения текущей темы
   const { theme } = useContext(ThemeContext);
 
   return (
@@ -50,6 +52,7 @@ function Content() {
 
 // Компонент ThemeSwitcher
 function ThemeSwitcher() {
+  // Используем контекст для получения текущей темы и функции переключения темы
   const { theme, toggleTheme } = useContext(ThemeContext);
 
   return (
@@ -69,8 +72,9 @@ function ThemeSwitcher() {
   );
 }
 
-// Главный компонент App
+// Главный компонент ChangeThemeApp
 function ChangeThemeApp() {
+  // Объявляем состояние для темы с начальным значением "light"
   const [theme, setTheme] = useState<Theme>("light");
 
   // Функция для переключения темы
@@ -79,6 +83,7 @@ function ChangeThemeApp() {
   };
 
   return (
+    // Провайдер контекста с текущей темой и функцией переключения темы
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       <div>
         <Header />

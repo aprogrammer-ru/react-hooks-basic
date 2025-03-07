@@ -20,7 +20,7 @@ function UseCallbackCounterApp() {
     setCount(0);
   }, []); // Зависимостей нет, функция создаётся только один раз
 
-  /* 
+  
   const simpleFunc = () => "";
 
   // Логируем изменение ссылок на функции increment, reset с помощью useEffect
@@ -34,7 +34,7 @@ function UseCallbackCounterApp() {
 
   useEffect(() => {
     console.log("Ссылка на simpleFunc изменилась");
-  }, [simpleFunc]); */
+  }, [simpleFunc]);
 
 
   console.log(`Рендер корневого компонента`);
